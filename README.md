@@ -4,6 +4,7 @@ Write a program driven by unit tests that can price a basket of goods taking int
  * Bread – 80p per loaf
  * Milk – £1.30 per bottle
  * Apples – £1.00 per bag
+ 
 Current special offers
  * Apples have a 10% discount off their normal price this week
  * Buy 2 tins of soup and get a loaf of bread for half price
