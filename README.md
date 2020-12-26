@@ -37,4 +37,4 @@ discounts:
 log-level: "OFF"
 ```
 
- * P.S : If there are discounts matched for same item, discount which is highest will be used.
+ * P.S : If there are discounts matching for same item, discount which is highest will be used.
