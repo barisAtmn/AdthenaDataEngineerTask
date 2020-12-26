@@ -51,10 +51,11 @@ package object adthena {
   type Comment = (String,String)
   type Comments = List[Comment]
 
-  case class Discount(item:Item=Item("",Some(1)), discounted:Item=Item("",Some(1)), ratio: Double = 1.0, message:String)
+  case class Discount(item:Item=Item("",Some(1)), discounted:Item=Item("",Some(0)), ratio: Double = 1.0, message:String="")
   type Discounts = List[Discount]
+  type ItemDiscounts = Map[String,Discounts]
 
-  case class Bill(items:Items, subtotal: Double=0, discounts: Discounts= List[Discount](), comments:Comments = List(("No offers available" , "")), totalPrice: Double=0){
+  case class Bill(items:Items, subtotal: Double=0, discounts: ItemDiscounts= Map("" ->  List[Discount]()), comments:Comments = List(("No offers available" , "")), totalPrice: Double=0){
     val getSubTotal = if (subtotal <100.0) subtotal.toInt.toString + "p" else pound + (subtotal/100).toString
     val getTotal = if (totalPrice <100.0) totalPrice.toInt.toString + "p" else pound + (totalPrice/100).toString
     def adjustDiscount(value: Double) = if (value <100.0) value.toInt.toString + "p" else pound + (value/100).toString

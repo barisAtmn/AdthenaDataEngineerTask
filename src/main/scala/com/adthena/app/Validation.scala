@@ -26,8 +26,8 @@ object Validation {
   def validateItem(basketItems : List[String], items: Items): ErrorOr[Items] = Either.cond(
     basketItems.forall(items.map(_.name).contains) && !basketItems.isEmpty,
     {
-      val groupBy          = basketItems.groupMapReduce(identity)(_ => 1)(_ + _)
-      groupBy.map(data =>  Item(data._1, Some(data._2))).toList
+      val groupBy          = basketItems.groupBy(identity).mapValues(_.map(_ => 1).reduce(_ + _))
+      groupBy.map(data =>  Item(data._1, Some(data._2))).filter(item => item.name!="").toList
     },
     ItemInvalid()
   )

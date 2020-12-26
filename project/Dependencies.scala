@@ -20,4 +20,8 @@ object Dependencies {
      "com.github.pureconfig" %% "pureconfig" % pureConfigVersion
   )
 
+  lazy val catsLibraries = Seq(
+    "org.typelevel" %% "cats-core" % "2.3.1"
+  )
+
 }
