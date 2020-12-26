@@ -11,7 +11,7 @@ object BusinessLogicSpec extends DefaultRunnableSpec {
   import com.adthena.app.BusinessLogic._
 
   final case class TestData(
-                             language: String
+                             items: List[String]
                            )
 
   val testData: Managed[Nothing, List[TestData]] =
@@ -22,18 +22,22 @@ object BusinessLogicSpec extends DefaultRunnableSpec {
       .mapM { source =>
         ZIO.effectTotal {
           source.getLines.toList.init
-            .map(_.split(','))
+            .map(_.split(' '))
             .map {
-              case (language) =>
-                TestData(language.head)
+              case (message) =>
+                TestData(message.tail.toList)
             }
         }
       }
 
   val testBusinessLogicLive: ZLayer[Has[List[TestData]], Nothing, BusinessLogicModule] =
     ZLayer.fromService { testData =>
-      val prices             =  List(Price(Item("ELMA"), "30P"), Price(Item("ARMUT"), "30P"), Price(Item("KIRAZ"), "E1"))
-      val discounts          =  List(Discount(Item("ELMA",Some(3)), Item("ELMA",Some(3)), 0.5, "ELMA %50 indirim"),  Discount(Item("ARMUT",Some(2)), Item("KIRAZ",Some(1)), 0.1, "KIRAZ %10 indirim")).sortBy(_.ratio).reverse
+      val prices             =  List(Price(Item("Soup"), "65P"), Price(Item("Bread"), "30P"), Price(Item("MILK"), "£1.30"), Price(Item("Apples"), "£1.00"))
+      val discounts          =  List(Discount(Item("Soup",Some(3)), Item("Bread",Some(2)), 0.5, "Buy 3 tins of soup and get two loaf of bread for half price"),
+                                     Discount(Item("Soup",Some(2)), Item("Apples",Some(1)), 0.1, "Buy a loaf of bread and get a bottle of milk 10% discount"),
+                                     Discount(Item("Milk",Some(1)), Item("Milk",Some(1)), 0.1, "Buy a loaf of bread and get a bottle of milk 10% discount"),
+                                     Discount(Item("Apples",Some(1)), Item("Apples",Some(1)), 0.1, "Apples have a 10% discount off their normal price this week")
+      ).sortBy(_.ratio).reverse
       BusinessLogic(prices, discounts)
     }
 
