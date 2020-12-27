@@ -21,7 +21,7 @@ Input should be via the command line in the form `PriceBasket item1 item2 item3 
  * Discount item =>  `item: {name = "" , count = 0 }, discounted: {name = "" , count = 0 }, ratio = 1, message = ""},`
     * `{name = "" , count = 0 }` => Item that you should buy. count: how many you should buy 
     * `{name = "" , count = 0 }` => Item which will be discounted. count: how many of them will be used for discount
- * log-level is OFF as default. 
+ * log-level is INFO as default. 
 ```
 prices:
    [
