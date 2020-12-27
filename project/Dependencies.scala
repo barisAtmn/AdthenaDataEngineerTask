@@ -13,7 +13,8 @@ object Dependencies {
 
   lazy val zioLibraries  = Seq(
     "dev.zio" %% "zio" % zioVersion,
-    "dev.zio" %% "zio-test" % zioVersion % Test
+    "dev.zio" %% "zio-test" % zioVersion % Test,
+    "dev.zio" %% "zio-test-sbt" % zioVersion % Test
   )
 
   lazy val configLibraries = Seq(

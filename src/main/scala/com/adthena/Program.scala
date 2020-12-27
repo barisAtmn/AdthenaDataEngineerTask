@@ -4,7 +4,10 @@ import zio._
 import zio.logging.{LogFormat, LogLevel, Logging, log}
 
 /**
+ * Program calculates shopping basket
  *
+ * @author Baris Ataman
+ * @version 1.0
  **/
 object Program extends App {
   import app.Configuration

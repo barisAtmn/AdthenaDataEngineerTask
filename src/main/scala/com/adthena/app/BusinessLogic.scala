@@ -11,6 +11,9 @@ object BusinessLogic {
   }
 
 
+  /**
+   * @return CustomerBill after calculation
+   **/
   case class BusinessLogic(prices : Prices, discounts : Discounts) extends Service {
     override def calculateSubTotal(customerBill: CustomerBill): Task[CustomerBill] = for {
        bill   <- customerBill.get
@@ -28,6 +31,9 @@ object BusinessLogic {
         )
     } yield customerBill
 
+    /**
+     * @return CustomerBill with discounts
+     **/
     override def calculateDiscount(customerBill: CustomerBill): Task[CustomerBill] = {
         import cats.implicits._
         for {
@@ -50,13 +56,15 @@ object BusinessLogic {
         } yield customerBill
       }
 
-
+    /**
+     * @return CustomerBill with total
+     **/
     override def calculateTotal(customerBill: CustomerBill): Task[CustomerBill] =
       for {
         bill   <- customerBill.get
         items  = bill.items
         customerDiscounts = bill.discounts
-        _     <- ZIO.foreach(items)(item =>  customerDiscounts.get(item.name).getOrElse(List(Discount())).filter(_.item.name != "").map(discount => if(item.count.getOrElse(1)  >= discount.discounted.count.getOrElse(1))
+        _     <- ZIO.foreachPar(items)(item =>  customerDiscounts.get(item.name).getOrElse(List(Discount())).filter(_.item.name != "").map(discount => if(item.count.getOrElse(1)  >= discount.discounted.count.getOrElse(1))
           for{
             applyTime       <- ZIO.effect((item.count.getOrElse(1) / discount.discounted.count.getOrElse(1)).floor.toInt)
             discountAmount  = prices.filter(_.item.name == item.name).map(_.costP.get * applyTime * discount.ratio * discount.discounted.count.getOrElse(1)).head

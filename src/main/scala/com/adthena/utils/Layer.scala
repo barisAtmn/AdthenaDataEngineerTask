@@ -9,6 +9,9 @@ import zio.console.Console
 import zio.logging.{LogFormat, LogLevel, Logging, log}
 import zio.{ExitCode, ZIO}
 
+/**
+ * Creating all needed layers for program
+ **/
 object Layer {
 
   def apply(program: ZIO[modules, error, output]):ZIO[Logging with Console with Clock with ConfigurationModule, Throwable, ExitCode] = for{
@@ -35,9 +38,5 @@ object Layer {
     helpLayer          <-  ZIO.succeed(Console.live ++ Clock.live ++ Blocking.live)
     exitCode           <-  program.provideLayer(businessLogicLayer ++ helpLayer ++ validationLayer ++ (loggingLayer >>> Logging.withRootLoggerName("Price-Basket-Logger"))).exitCode
   } yield exitCode
-
-
-
-
 
 }

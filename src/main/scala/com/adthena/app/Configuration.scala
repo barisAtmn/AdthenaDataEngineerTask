@@ -5,6 +5,9 @@ import pureconfig.ConfigSource
 import zio.{Task, ZIO, ZLayer}
 import pureconfig.generic.auto._
 
+/**
+ *  Configuration Module
+ **/
 object Configuration {
 
   case class Config(prices: Prices, discounts: Discounts, logLevel:Option[String]=Some("ERROR"))
@@ -21,9 +24,16 @@ object Configuration {
           s"Error loading configuration: $failures"
         )
       )
+
+    /**
+     * Configuration layer
+     **/
     val configLive: ZLayer[Any, Nothing, ConfigurationModule] =
       ZLayer.succeed(ConfigurationService)
 
+    /**
+     * accessors
+     **/
     def getConfig:ZIO[ConfigurationModule, Throwable, Config] = ZIO.accessM[ConfigurationModule](_.get.load)
 
   }

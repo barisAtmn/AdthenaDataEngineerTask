@@ -1,8 +1,10 @@
 import Dependencies._
 
+Global / onChangedBuildSource := ReloadOnSourceChanges
+
 name := "DataEngineerAssignment"
 
-version := "0.1"
+version := "1.0"
 
 scalaVersion := "2.12.8"
 
@@ -11,5 +13,6 @@ libraryDependencies ++= configLibraries
 libraryDependencies ++= zioLibraries
 libraryDependencies ++= catsLibraries
 
-fork in run := true
 outputStrategy := Some(StdoutOutput)
+
+testFrameworks += new TestFramework("zio.test.sbt.ZTestFramework")
