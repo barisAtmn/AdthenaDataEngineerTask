@@ -44,6 +44,7 @@ package object adthena {
 
   case class Input()
 
+
   case class Item(name:String, count:Option[Int]=Some(1))
   type Items  = List[Item]
 
@@ -60,6 +61,8 @@ package object adthena {
     val getTotal = if (totalPrice <100.0) totalPrice.toInt.toString + "p" else pound + (totalPrice/100).toString
     def adjustDiscount(value: Double) = if (value <100.0) value.toInt.toString + "p" else pound + (value/100).toString
   }
+
+  object Bill
 
   type CustomerBill = Ref[Bill]
 

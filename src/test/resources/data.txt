@@ -1,6 +1,0 @@
-PriceBasket Apples Milk Bread
-PriceBasket Apples Milk Milk   Bread
-PriceBasket Apples Milk
-PriceBasket Milk Bread Bread
-Milk Bread Bread
-Milk Bread 3
